@@ -20,6 +20,16 @@ class Category(Base):
 
     products = relationship("Product", back_populates="category")
 
+class Product(Base):
+    __tablename__ = 'products'
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, index=True, nullable=False)
+    price = Column(Float, nullable=False)
+    category_id = Column(Integer, ForeignKey('categories.id'), nullable=True)
+
+    category = relationship("Category", back_populates="products")
+
 
 async def async_main():
     async with engine.begin() as conn:
